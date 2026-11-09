@@ -1,0 +1,226 @@
+[
+  {
+    "url": "https://api.energy-charts.info/v2/cbpf?start=2024-01-01&end=2024-12-31&country=de",
+    "retrieved_utc": "2026-11-09T13:55:42.123552+00:00",
+    "sha256": "57a82cb1f3e8b9f1bcc0966a59fe01eefdc08c9eace24e10eebc703b30612beb",
+    "license": "CC BY 4.0 (creativecommons.org/licenses/by/4.0), attribution: energy-charts.info",
+    "metadata": {
+      "schema_version": "2.0",
+      "endpoint": "cbpf",
+      "country": "de",
+      "bidding_zone": null,
+      "timezone": "Europe/Berlin",
+      "resolution": "PT15M",
+      "interval_minutes": 15,
+      "unit": "GW",
+      "generated_at": "2026-11-09T14:55:40+01:00",
+      "available_from": "2024-01-01T00:00:00+01:00",
+      "available_until": "2024-12-31T23:45:00+01:00",
+      "series": [
+        {
+          "id": "austria",
+          "name": "Austria",
+          "description": "Exchange with Austria"
+        },
+        {
+          "id": "belgium",
+          "name": "Belgium",
+          "description": "Exchange with Belgium"
+        },
+        {
+          "id": "czech_republic",
+          "name": "Czech Republic",
+          "description": "Exchange with Czech Republic"
+        },
+        {
+          "id": "denmark",
+          "name": "Denmark",
+          "description": "Exchange with Denmark"
+        },
+        {
+          "id": "france",
+          "name": "France",
+          "description": "Exchange with France"
+        },
+        {
+          "id": "luxembourg",
+          "name": "Luxembourg",
+          "description": "Exchange with Luxembourg"
+        },
+        {
+          "id": "netherlands",
+          "name": "Netherlands",
+          "description": "Exchange with Netherlands"
+        },
+        {
+          "id": "norway",
+          "name": "Norway",
+          "description": "Exchange with Norway"
+        },
+        {
+          "id": "poland",
+          "name": "Poland",
+          "description": "Exchange with Poland"
+        },
+        {
+          "id": "sweden",
+          "name": "Sweden",
+          "description": "Exchange with Sweden"
+        },
+        {
+          "id": "switzerland",
+          "name": "Switzerland",
+          "description": "Exchange with Switzerland"
+        },
+        {
+          "id": "sum",
+          "name": "sum",
+          "description": "Net sum over all borders"
+        }
+      ],
+      "attributes": {
+        "sign_convention": "positive = import, negative = export"
+      },
+      "license": "CC BY 4.0 (creativecommons.org/licenses/by/4.0), attribution: energy-charts.info",
+      "deprecated": false
+    }
+  },
+  {
+    "url": "https://api.energy-charts.info/v2/price?start=2024-01-01&end=2024-12-31&bzn=DE-LU",
+    "retrieved_utc": "2026-11-09T13:55:31.847491+00:00",
+    "sha256": "f0a269f4b2a480d573f7f726576f64803c54e649ca28306bcff87dd642b1e5a6",
+    "license": "CC BY 4.0 (creativecommons.org/licenses/by/4.0) from Bundesnetzagentur | SMARD.de",
+    "metadata": {
+      "schema_version": "2.0",
+      "endpoint": "price",
+      "country": "de",
+      "bidding_zone": "DE-LU",
+      "timezone": "Europe/Berlin",
+      "resolution": "PT1H",
+      "interval_minutes": 60,
+      "unit": "EUR / MWh",
+      "generated_at": "2026-11-09T14:55:32+01:00",
+      "available_from": "2024-01-01T00:00:00+01:00",
+      "available_until": "2024-12-31T23:00:00+01:00",
+      "series": [
+        {
+          "id": "day_ahead_price",
+          "name": "Day-ahead spot market price"
+        }
+      ],
+      "attributes": {},
+      "license": "CC BY 4.0 (creativecommons.org/licenses/by/4.0) from Bundesnetzagentur | SMARD.de",
+      "deprecated": false
+    }
+  },
+  {
+    "url": "https://api.energy-charts.info/v2/public_power?start=2024-01-01&end=2024-12-31&country=de",
+    "retrieved_utc": "2026-11-09T13:55:39.007258+00:00",
+    "sha256": "17eaa1d8eaeb2d72836f6b23bd595ee9ab7e8347f38db360a6f5cc6418c450dc",
+    "license": "CC BY 4.0 (creativecommons.org/licenses/by/4.0), attribution: energy-charts.info",
+    "metadata": {
+      "schema_version": "2.0",
+      "endpoint": "public_power",
+      "country": "de",
+      "bidding_zone": null,
+      "timezone": "Europe/Berlin",
+      "resolution": "PT15M",
+      "interval_minutes": 15,
+      "unit": "MW",
+      "generated_at": "2026-11-09T14:55:35+01:00",
+      "available_from": "2024-01-01T00:00:00+01:00",
+      "available_until": "2024-12-31T23:45:00+01:00",
+      "series": [
+        {
+          "id": "hydro_pumped_storage_consumption",
+          "name": "Hydro pumped storage consumption"
+        },
+        {
+          "id": "cross_border_electricity_trading",
+          "name": "Cross border electricity trading"
+        },
+        {
+          "id": "hydro_run_of_river",
+          "name": "Hydro Run-of-River"
+        },
+        {
+          "id": "biomass",
+          "name": "Biomass"
+        },
+        {
+          "id": "fossil_brown_coal_lignite",
+          "name": "Fossil brown coal / lignite"
+        },
+        {
+          "id": "fossil_hard_coal",
+          "name": "Fossil hard coal"
+        },
+        {
+          "id": "fossil_oil",
+          "name": "Fossil oil"
+        },
+        {
+          "id": "fossil_coal_derived_gas",
+          "name": "Fossil coal-derived gas"
+        },
+        {
+          "id": "fossil_gas",
+          "name": "Fossil gas"
+        },
+        {
+          "id": "geothermal",
+          "name": "Geothermal"
+        },
+        {
+          "id": "hydro_water_reservoir",
+          "name": "Hydro water reservoir"
+        },
+        {
+          "id": "hydro_pumped_storage",
+          "name": "Hydro pumped storage"
+        },
+        {
+          "id": "others",
+          "name": "Others"
+        },
+        {
+          "id": "waste",
+          "name": "Waste"
+        },
+        {
+          "id": "wind_offshore",
+          "name": "Wind offshore"
+        },
+        {
+          "id": "wind_onshore",
+          "name": "Wind onshore"
+        },
+        {
+          "id": "solar",
+          "name": "Solar"
+        },
+        {
+          "id": "load",
+          "name": "Load"
+        },
+        {
+          "id": "residual_load",
+          "name": "Residual load"
+        },
+        {
+          "id": "renewable_share_of_load",
+          "name": "Renewable share of load",
+          "unit": "%"
+        },
+        {
+          "id": "renewable_share_of_generation",
+          "name": "Renewable share of generation",
+          "unit": "%"
+        }
+      ],
+      "attributes": {},
+      "license": "CC BY 4.0 (creativecommons.org/licenses/by/4.0), attribution: energy-charts.info",
+      "deprecated": false
+    }
+  }
+]

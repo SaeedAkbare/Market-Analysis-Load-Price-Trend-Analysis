@@ -7,3 +7,7 @@ Corrections: the price notebook ends at midnight on 31 December, omitting the la
 ATR/Bollinger interpretations assert hedge adjustments, structural stress and predictive risk without validation. Those claims are superseded, not adopted. Counting unique streak lengths is not counting episodes. Berlin point weather is not nationwide renewable generation; ambiguous-time handling and inner joins can discard observations. New analysis uses physical generation, UTC alignment and explicit negative-price runs.
 
 Missing originally: generation, physical flows, residual load, coverage checks, provenance, reusable modules, tests and a hiring-manager report. These now have implementations. Live source compatibility and empirical findings remain pending data access. Legacy embedded results are not evidence for the revised question.
+
+
+## Public-source follow-up
+The default workflow now uses token-free Energy-Charts v2. The complete 2024 run succeeded with all required series present. Six empirical charts, descriptive associations and case-day statistics are in reports/results. The geography is explicitly DE-LU prices with German fundamentals and flows. The initial data-access blocker above describes the original ENTSO-E-only version.

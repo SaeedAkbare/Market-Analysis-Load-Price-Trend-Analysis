@@ -1,22 +1,23 @@
-# Data and methods
+# Data and methods — public-source reconstruction
 
-Target: full calendar 2024, Europe/Berlin; exclusive end 1 January 2025. Actual coverage is pending retrieval.
+The default source is the [Fraunhofer ISE Energy-Charts v2 API](https://api.energy-charts.info/). No token or account is required. This documented API supplies prices attributed to Bundesnetzagentur | SMARD.de, and physical series published by Energy-Charts. It is an alternative distribution route, not a claim that every value was fetched directly from ENTSO-E.
 
-| Series | Query | Unit |
-|---|---|---|
-| DE-LU day-ahead price | A44 | EUR/MWh; XML EUR and MWH |
-| Actual demand | A65, A16 | MW; XML MAW |
-| Solar, offshore wind, onshore wind | A75, A16; B16, B18, B19 | MW |
-| Physical flows, both directions | A11 | MW |
+Target: 1 January–31 December 2024, Europe/Berlin; exclusive end 1 January 2025. Three full-year requests are cached with URLs, actual retrieval UTC, license, source metadata and SHA-256. Requests use inclusive calendar-date parameters; alignment uses an exclusive end. Rate-limit responses honour numeric Retry-After up to 60 seconds, then stop for a later retry. The optional original ENTSO-E adapter remains in data.py; its documentation is preserved in entsoe-methods-legacy.md.
 
-DE-LU EIC: 10Y1001A1001A82H. Borders: AT, BE, CH, CZ, DK1, DK2, FR, NL, NO2, PL, SE4; exact codes and direction parameters are in data.py. Internal DE/LU transfers are excluded. No Germany-only substitute is silently used. Source geography must be checked during first live retrieval.
+| Endpoint | Selection | Source unit | Analysis unit / scope |
+|---|---|---|---|
+| /v2/price | bzn=DE-LU, day_ahead_price | EUR / MWh | EUR/MWh, DE-LU bidding zone |
+| /v2/public_power | country=de; load, wind_onshore, wind_offshore, solar | MW | MW, Germany |
+| /v2/cbpf | country=de, named borders | GW | MW, Germany physical border flows |
 
-[ENTSO-E Transparency Platform](https://transparency.entsoe.eu/) is the source. Consult the [API guide](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html) and [token access instructions](https://transparencyplatform.zendesk.com/hc/en-us/articles/12845911031188-How-to-get-security-token). Registration and approved API access are required. Set ENTSOE_API_KEY in the environment. Raw monthly XML and JSON sidecars record query parameters without credentials, units, retrieval UTC and SHA-256. Cached retrieval dates are retained. No retrieval date is claimed before download.
+Physical border series are Austria, Belgium, Czech Republic, Denmark, France, Luxembourg, Netherlands, Norway, Poland, Sweden and Switzerland. Denmark and Norway are country aggregates here, not separate bidding zones. Luxembourg is included because these flows describe Germany, not the DE-LU boundary. These fundamentals must not be labelled a complete DE-LU balance. Load is the provider's load series; generation is public net generation, not a measure of all industrial self-supply. Residual load is calculated as this load minus wind and solar from the same source.
 
-Data rights are separate from code rights. Check current platform terms and the reusable-data list linked from the [ENTSO-E platform information](https://www.entsoe.eu/data/transparency-platform/) before each redistribution; attribution is not blanket permission. Raw data is ignored by Git.
+Positive source flows mean imports. GW is multiplied by 1,000 to obtain MW. Positive/negative parts produce inward/outward *net border flow*, not gross simultaneous directional measurements. Provider sum is excluded from summation and used only for a consistency check, with 12 MW tolerance for rounded border values. The total includes the Luxembourg border.
 
-Intervals are left closed, right open. Explicit 15/30/60-minute durations expand to a UTC quarter-hour grid only within each interval. This preserves duration-weighted averages; MW times hours is MWh. Repeated quarter-hour values are not independent observations. Native negative-price intervals and extrema survive resolution changes. Unsupported resolutions and sparse A03 curves fail for review rather than being guessed.
+All timestamps mark interval starts. Offset-aware timestamps convert to UTC; daily summaries use Europe/Berlin. Returned interval_minutes is required (15, 30 or 60); each value is repeated only within its explicit interval on a quarter-hour grid. This is duration weighting, not interpolation. Nulls remain missing. Exact duplicates collapse, conflicts fail. Unsupported or mixed-resolution metadata stops retrieval for split-period handling rather than inferring a duration from gaps. For this fixed 2024 analysis, the live responses supply hourly prices and quarter-hour physical series. A future period crossing a resolution change needs requests split at that transition.
 
-Exact duplicates collapse; conflicting duplicates/overlaps fail. Missing intervals remain missing, never zero-filled or interpolated. Main analysis requires complete coverage for every required series and writes coverage.csv before stopping on gaps. Missing physical flows are not assumed zero. Local daily statistics preserve 23/24/25-hour delivery days. Residual load = actual demand minus wind and solar. Positive net imports = inward minus outward physical flows across listed borders. Daily spread = maximum minus minimum price on a complete local day. Negative means strictly below zero. Episodes cross midnight; missing intervals break runs. Boundary runs are observed lower bounds.
+Coverage is checked for every required series, and findings require full coverage. Daily spreads use complete local days (23/24/25 hours). Negative prices are strictly below zero, durations are measured in hours, and runs cross midnight. Sample-boundary runs are censored. Repeated price values are not independent samples. Correlations are descriptive Spearman associations, without causal or significance claims.
 
-The report selects three distinct days by largest spread, most negative hours and highest mean residual load. Selection is retrospective. Spearman correlations and plots describe associations, not causal effects. Actual fundamentals and physical flows occur after the auction and cannot establish ex-ante forecast skill. Physical flows differ from commercial schedules and include loop flows. Weather, outages, fuel/carbon costs and neighbouring prices are omitted. Spreads are not achievable storage profit. ATR and Bollinger remain optional legacy exploration, not validated hedging rules. Spain/Portugal and controlled sensitivity analysis are future work.
+Responses retrieved for this run identify CC BY 4.0: credit Energy-Charts.info for physical data and Bundesnetzagentur | SMARD.de for prices. Check each response's license before applying the adapter to other zones. Raw data stays outside Git; derived figures/tables and provenance summaries may be shared with attribution and notice of transformation. See [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+Three distinct retrospective case days are selected by maximum spread, negative hours and mean residual load. No causal event explanation is inferred from these rankings. Weather, outages, fuels, carbon and neighbouring prices remain omitted. Actual fundamentals are ex post; spreads are not storage profits. Spain/Portugal and controls for seasonality remain future extensions.
