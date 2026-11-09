@@ -1,60 +1,42 @@
-# Market-Analysis-Load-Price-Trend-Analysis
-Load &amp; Price Trend Analysis
-# 🔑 Concept Map & Code: Volatility Analysis in Power Markets
+# European Power Market Fundamentals
 
-Welcome to the **Power Markets Volatility Analysis** repository. This project bridges the gap between financial risk metrics and physical power markets, using **ENTSO-E API** day-ahead price data to detect spikes, assess operational risk, and uncover structural changes in the electrical grid.
+**How do renewable generation, electricity demand, and cross-border flows relate to negative day-ahead prices and daily price spreads?**
 
----
+A DE-LU portfolio study targeting the full 2024 calendar year. Spain and Portugal are later extensions.
 
-## 📌 Project Overview & Core Concept
-In power markets, **volatility** measures the velocity and magnitude of price changes (in EUR/MWh). Electricity is a non-storable commodity with real-time supply/demand balancing, making its markets among the most volatile in the world. 
+**Status:** pipeline, analysis modules, notebook, tests and six chart/report generators implemented. Official retrieval and empirical findings await ENTSOE_API_KEY. No new numerical findings or completed empirical charts are claimed.
 
-This toolkit implements standard volatility metrics adapted specifically for **Day-Ahead Power Prices** to create a functional risk-radar.
+## Reproduce
 
----
+Use Python 3.11+ from this repository directory:
 
-## 📊 Technical Indicators Cheat Sheet
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+# Set ENTSOE_API_KEY securely in your environment.
+python -m pytest -q
+python -m power_market.run
+```
 
-| Question Handled | Indicator | Practical Application & Interpretation |
-| :--- | :--- | :--- |
-| **Are daily price swings unusually large?** | **ATR** (Average True Range) | Compare today's ATR to a 30-day mean. If **ATR > $2 \times$ mean**, hedgebooks should immediately widen risk margins. |
-| **Is volatility trending up or down?** | **ATR** (Time Trend) | Rising ATR indicates a shifting risk regime (e.g., entering winter peaks); falling ATR denotes a stable, predictable regime. |
-| **Are current prices outside "normal" bounds?** | **Bollinger Bands** | Price piercing the Upper Band indicates upside stress (renewables dropout/heatwave). Lower Band breaches signal demand drops. |
-| **Is an event short-lived or structural?** | **Both** | One-off breach + flat ATR = **Noise**. <br>Sustained outer-band closes + surging ATR = **Structural Stress** (fuel shortages/transmission caps). |
+The final command downloads monthly official XML, validates coverage and writes outputs. Data and credentials are excluded from Git. Dependencies are bounded; record pip freeze with the successful run.
 
----
+## Deliverables
 
-## 🛠️ Data Infrastructure & Assumptions
-* **Primary Feed:** Day-Ahead hourly power prices ($\text{EUR/MWh}$).
-* **Source Library:** `entsoe-py` (direct connection to the ENTSO-E Transparency Platform).
-* **Sample Scope Included:** Germany/Luxembourg bidding zone (`DE_LU`).
-* **Underlying Logic:** Historical shifts in volatility are predictive of near-term tail risk, and persistent statistical anomalies reflect underlying real-world grid bottlenecks or weather anomalies.
+- power_market/data.py: retrieval, units, provenance and interval alignment.
+- power_market/analysis.py: residual load, daily spreads and negative-price runs.
+- power_market/run.py: six charts, coverage/association tables and market report.
+- notebooks/fundamentals.ipynb: guided analysis using the modules.
+- [Inspection](docs/inspection.md), [data and methods](docs/data-methods.md), [report status](reports/market-report.md).
 
----
+Charts cover price distribution, seasonality, daily spreads/negative hours, physical fundamentals, flow conditions and three unusual days. Each includes units, dates and source notes. All require validated official data.
 
-## 💻 Getting Started (Python Integration)
+## Findings and limitations
 
-### 1. Prerequisites & Installation
-Ensure you install the native ENTSO-E Python wrapper package to seamlessly process data frames:
-```bash
-pip install entsoe-py pandas numpy matplotlib seaborn
+No empirical findings are available yet. After successful execution see outputs/market-report.md, summary.json, associations.csv and the six PNG charts. Residual load is demand minus wind and solar generation. Negative-price exposure informs renewable revenue review; daily ranges screen flexibility opportunities but are not storage profits. Actual fundamentals and flows are ex post; correlations do not identify causal effects or actionable forecasts.
 
+UTC interval alignment preserves daylight-saving changes and different resolutions. Missing observations remain missing; incomplete required series stop report generation. See the methodology for units, source access, rights, border definitions and limitations.
 
+## Preserved work and future scope
 
-
-
-import pandas as pd
-from entsoe import EntsoePandasClient
-
-# Initialize client with your ENTSO-E API Security Token
-api_key = "YOUR_API_KEY_HERE"
-client = EntsoePandasClient(api_key=api_key)
-
-# Configure Target Parameters (Example: Germany grid data)
-start = pd.Timestamp('2026-01-01', tz='Europe/Berlin')
-end = pd.Timestamp('2026-12-31', tz='Europe/Berlin')
-country_code = 'DE_LU' 
-
-# Fetch Day-Ahead Hourly Prices (EUR/MWh)
-day_ahead_prices = client.query_day_ahead_prices(country_code, start=start, end=end)
-print(day_ahead_prices.describe())
+Both original notebooks remain intact as historical explorations, and the original README is preserved in docs/legacy-readme.md. Their useful source-query and daily-price ideas informed this implementation. Their unsupported trading claims are superseded. No dashboard or additional model complexity is needed. Spain/Portugal, ex-ante fundamentals and seasonally controlled sensitivity checks are future extensions after DE-LU validation.

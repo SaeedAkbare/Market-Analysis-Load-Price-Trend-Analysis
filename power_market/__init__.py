@@ -1,0 +1,1 @@
+"""European Power Market Fundamentals."""
